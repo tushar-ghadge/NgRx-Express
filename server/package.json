@@ -1,0 +1,19 @@
+{
+    "name": "server",
+    "scripts": {
+        "start": "npm run build:live",
+        "build:live": "nodemon --exec ./node_modules/.bin/ts-node -- ./index.ts",
+        "build": "tsc",
+        "debug": "nodemon --inspect ./bin/www"
+    },
+    "dependencies": {
+        "body-parser": "^1.18.3",
+        "cookie-parser": "^1.4.3",
+        "express": "^4.16.4"
+    },
+    "devDependencies": {
+        "@types/node": "^10.0.8",
+        "ts-node": "^6.0.3",
+        "typescript": "^2.8.3"
+    }
+}

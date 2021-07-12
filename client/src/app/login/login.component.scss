@@ -1,0 +1,24 @@
+
+  mat-card {
+    max-width: 400px;
+    margin: 2em auto !important;
+    text-align: center;
+  }
+ 
+  .mat-form-field {
+    width: 100%;
+    min-width: 300px;
+  }
+
+  .loginError {
+    padding: 16px;
+    width: 300px;
+    color: white;
+    background-color: red;
+  }
+
+  .loginButtons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }

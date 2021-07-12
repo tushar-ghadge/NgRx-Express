@@ -22,17 +22,27 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { EmployeeComponent } from './employee/employee.component';
+import { LoginComponent } from './login/login.component';
+import { AuthGuard } from './auth.guard';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 
 const routes: Routes = [
   {
-    path : 'login',
-    component : EmployeeComponent
+    path: '',
+    component: LoginComponent
   },
   {
-    path : '',
+    path : 'login',
+    component : LoginComponent
+  },
+  {
+    path : 'dashboard',
+    canActivate : [AuthGuard],
     component : EmployeeComponent
-  }
+  },
+  {path: '404', component: NotFoundComponent},
+  {path: '**', redirectTo: '/404'}
 ];
 
 @NgModule({

@@ -7,7 +7,7 @@ import { Employee } from './store/models/employee.model';
   providedIn: 'root'
 })
 export class EmployeeService {
-  private API_URL = "http://localhost:3000/employees";
+  private API_URL = "/api/getEmpList";
   constructor(private http: HttpClient) { }
 
   getEmployeeList(){
