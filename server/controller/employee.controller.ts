@@ -11,6 +11,17 @@ const employeeController = (req,res)=>{
     return res.status(200).json(_json);//.json(response);  
 }
 
+const login = (req, res) => {
+    let response = {
+        authenticated: false
+    }
+    if(req.body.username == "test" && req.body.password == "test"){
+        response.authenticated = true;
+    }
+    return res.status(200).json(response);//.json(response);
+}
+
 export const main = {
     employeeController : employeeController,
+    login : login
 }

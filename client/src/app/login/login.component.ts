@@ -25,7 +25,6 @@ export class LoginComponent implements OnInit {
   }
 
   submit(form: NgForm) {
-    let response;
     if ( this.loginForm.invalid ) {
       this.snackBar.open("Please provide all required fields!", "Incomplete submission", {
         duration: 2000,
@@ -36,14 +35,15 @@ export class LoginComponent implements OnInit {
     let username = this.loginForm.get('username').value;
     let password = this.loginForm.get('password').value;
 
-    //calling auth service
-    if(this.service.authenticateUser(username, password)){
-      this.router.navigate(["/dashboard"]);
-    }else{
-      this.snackBar.open("Please provide valid credentials!", "Invalid login", {
-        duration: 2000,
-      });
-      return;
-    }
+    this.service.login(username,password).subscribe((result)=>{
+      if(result["authenticated"]){
+        sessionStorage.setItem('user','authenticated');
+        this.router.navigate(["/dashboard"]);
+      }else{
+        this.snackBar.open("Please provide valid credentials!", "Invalid login", {
+              duration: 2000,
+        });
+      }
+    })
   }
 }

@@ -23,17 +23,6 @@ class App {
             msg: 'online'
         });
     });
-
-    this.app.get('/authenticated', (req, res) => {
-        res.json({ 'isAuthenticated': req.isAuthenticated(), 'user': req.user });
-    });
-
-    this.app.get('/getSession', (req, res) => {
-        res.json(req.session);
-    });
-
-    
-
     
     this.app.listen(this.port, async (err) => {
         if (err) {
