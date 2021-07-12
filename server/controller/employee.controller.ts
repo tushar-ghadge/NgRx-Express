@@ -1,3 +1,6 @@
+import * as jwt from 'jsonwebtoken';
+import * as expresJWT from 'express-jwt';
+
 const employeeController = (req,res)=>{
     const _json = [
         {id: 1, name: "Tushar Ghadge", email: "tushar@gmail.com"},
@@ -16,7 +19,13 @@ const login = (req, res) => {
         authenticated: false
     }
     if(req.body.username == "test" && req.body.password == "test"){
-        response.authenticated = true;
+        //response.authenticated = true;
+        var jwtBearerToken = jwt.sign({userID: req.body.username}, 'app-secret', {expiresIn: '2h'});
+        //return res.send({token});
+        res.status(200).json({
+            idToken: jwtBearerToken, 
+            expiresIn: 120
+        });
     }
     return res.status(200).json(response);//.json(response);
 }

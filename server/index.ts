@@ -1,6 +1,9 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
+import * as jwt from 'jsonwebtoken';
+
+
 import routes from './routes';
 
 
@@ -18,6 +21,10 @@ class App {
         next();
     });
 
+    //this.app.use(expresJWT({secret: 'app-secret'}).unless({path: ['/api/auth','/','/login']}));
+    //this.app.use("/api/getEmpList",expresJWT({secret: 'app-secret'}));
+    
+
     this.app.get('/health', (req, res) => {
         res.json({
             msg: 'online'
@@ -25,7 +32,7 @@ class App {
     });
     
     this.app.listen(this.port, async (err) => {
-        if (err) {
+        if (err) { 
             return console.log(err)
         }
         return console.log(`server is listening on ${this.port}`)
