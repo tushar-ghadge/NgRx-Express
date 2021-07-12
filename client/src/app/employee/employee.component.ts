@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../store/models/app-state.model';
 import { LoadEmployeesAction, SearchEmployeeAction } from '../store/actions/employee.action';
 import { Router } from '@angular/router';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'app-employee',
@@ -29,10 +30,13 @@ export class EmployeeComponent implements OnInit{
   error$: Observable<Error>
 
   searchEmployee: string = ""
-  constructor(private store: Store<AppState>, private snackBar: MatSnackBar, private router : Router){}
+  constructor(private store: Store<AppState>, private snackBar: MatSnackBar, private router : Router, private auth: AuthService){}
 
   ngOnInit(): void {
-    
+    this.employees$ = this.store.select(store => store.emp.list)
+    this.loading$ = this.store.select(store => store.emp.loading)
+    this.error$ = this.store.select(store => store.emp.error);
+    this.store.dispatch(new LoadEmployeesAction());
     this.store.select(store => store.emp.list).subscribe(employees => this.initializeData(employees));
     
     this.dataSource.filterPredicate = function(data: Employee, filter: string): boolean {
@@ -59,8 +63,12 @@ export class EmployeeComponent implements OnInit{
     this.dataSource.filter = filterValue;
   }
 
-  logout(){
-    sessionStorage.clear();
-    this.router.navigate(["/"]);
+  // logout(){
+  //   sessionStorage.clear();
+  //   this.router.navigate(["/"]);
+  // }
+  logout() {
+    this.auth.logout();
+    this.router.navigate(['/login']);
   }
 }

@@ -3,6 +3,7 @@ import { FormControl, FormGroupDirective, FormBuilder, FormGroup, NgForm, Valida
 import { MatSnackBar } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../service/auth.service';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -11,6 +12,7 @@ import { AuthService } from '../service/auth.service';
   providers: [AuthService]
 })
 export class LoginComponent implements OnInit {
+  error: string;
 
   constructor(private formBuilder: FormBuilder,private snackBar: MatSnackBar, private router : Router, 
     private service: AuthService) { }
@@ -35,15 +37,30 @@ export class LoginComponent implements OnInit {
     let username = this.loginForm.get('username').value;
     let password = this.loginForm.get('password').value;
 
-    this.service.login(username,password).subscribe((result)=>{
-      if(result["authenticated"]){
-        sessionStorage.setItem('user','authenticated');
-        this.router.navigate(["/dashboard"]);
-      }else{
-        this.snackBar.open("Please provide valid credentials!", "Invalid login", {
-              duration: 2000,
-        });
-      }
-    })
+    // this.service.login(username,password).subscribe((result)=>{
+    //   if(result["authenticated"]){
+    //     sessionStorage.setItem('user','authenticated');
+    //     this.router.navigate(["/dashboard"]);
+    //   }else{
+    //     this.snackBar.open("Please provide valid credentials!", "Invalid login", {
+    //           duration: 2000,
+    //     });
+    //   }
+    // })
+
+    this.service.login(username, password)
+      .pipe(first())
+      .subscribe(
+        result => {
+          if(result['idToken']){
+            this.router.navigate(['/dashboard']);
+          }else{
+            this.snackBar.open("Please provide valid credentials!", "Invalid login", {
+                        duration: 2000,
+            });
+          }
+              
+        }
+      );
   }
 }

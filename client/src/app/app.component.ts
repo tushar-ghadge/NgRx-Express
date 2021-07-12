@@ -23,10 +23,10 @@ export class AppComponent implements OnInit{
 
   ngOnInit(): void {
     this.titleService.setTitle("Employee app")
-    this.employees$ = this.store.select(store => store.emp.list)
-    this.loading$ = this.store.select(store => store.emp.loading)
-    this.error$ = this.store.select(store => store.emp.error);
-    this.store.dispatch(new LoadEmployeesAction());
+    // this.employees$ = this.store.select(store => store.emp.list)
+    // this.loading$ = this.store.select(store => store.emp.loading)
+    // this.error$ = this.store.select(store => store.emp.error);
+    // this.store.dispatch(new LoadEmployeesAction());
     //setTimeout(()=> this.searchEmp(),2000)
   }
 
