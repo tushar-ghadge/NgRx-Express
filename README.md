@@ -6,7 +6,7 @@
 
 ## Steps to setup:
 
-- git clone the repo: git clone https://github.com/tushar-ghadge/NgRx-Express.git
+- clone the repo: git clone https://github.com/tushar-ghadge/NgRx-Express.git
 - cd to client folder and install dependencies(npm install).
 - build the project with : ng build.
 - cd to server folder from root directory and install dependencies.
