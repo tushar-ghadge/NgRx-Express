@@ -30,6 +30,7 @@ export class EmployeeComponent implements OnInit{
   error$: Observable<Error>
 
   searchEmployee: string = ""
+  regExpr:any;
   constructor(private store: Store<AppState>, private snackBar: MatSnackBar, private router : Router, private auth: AuthService){}
 
   ngOnInit(): void {
@@ -39,9 +40,9 @@ export class EmployeeComponent implements OnInit{
     this.store.dispatch(new LoadEmployeesAction());
     this.store.select(store => store.emp.list).subscribe(employees => this.initializeData(employees));
     
-    this.dataSource.filterPredicate = function(data: Employee, filter: string): boolean {
-      return data.name.toLowerCase().startsWith(filter);
-    };
+    // this.dataSource.filterPredicate = function(data: Employee, filter: string): boolean {
+    //   return data.name.toLowerCase().startsWith(filter);
+    // };
     
   }
 
@@ -54,15 +55,25 @@ export class EmployeeComponent implements OnInit{
 
   private initializeData(employees: Employee[]): void {
     this.dataSource = new MatTableDataSource(employees);
+    this.dataSource.filterPredicate =this.regExprFilter()
     this.dataSource.paginator = this.paginator;
+
   }
 
   applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); 
-    filterValue = filterValue.toLowerCase();
+    this.regExpr = new RegExp("^"+filterValue.toLowerCase());
     this.dataSource.filter = filterValue;
   }
-
+  regExprFilter()
+  { 
+    return (data: any, filter: string) => {
+        try {
+          return this.regExpr.test(data.name.toLowerCase())
+        } catch (e) {
+          return false
+        }
+      }
+  }
   // logout(){
   //   sessionStorage.clear();
   //   this.router.navigate(["/"]);
